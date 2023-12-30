@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace Rogue_like_Game
 {
-    internal class Renderer
+    internal static class Renderer
     {
-        public Renderer() { }
+        //public Renderer() { }
 
-        public void PrintMaze(char[,] maze, int width, int height)
+        public static void PrintMaze(Maze maze)
         {
             Console.Clear();
-            for(int i=0;i<height;i++)
+            for(int i=0;i<maze.height;i++)
             {
-                for(int j=0;j<width;j++)
+                for(int j=0;j<maze.width;j++)
                 {
-                    Console.Write(maze[i,j]+" ");
+                    Console.Write(maze.map[i,j]+" ");
                 }
                 Console.WriteLine();
             }

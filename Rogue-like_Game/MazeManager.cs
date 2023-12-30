@@ -6,40 +6,41 @@ using System.Threading.Tasks;
 
 namespace Rogue_like_Game
 {
-    internal class MazeManager
+    internal static class MazeManager
     {
         //public char[,] maze;
-        public int width;
-        public int height;
-        private Random random = new Random();
+        //public int width;
+        //public int height;
+      
 
-        public MazeManager()
-        { }
-        public MazeManager(int width, int height)
+        //public MazeManager()
+        //{ }
+        //public MazeManager(int width, int height)
+        //{
+        //    this.width = width;
+        //    this.height = height;
+        //}
+
+        public static void InitializeMaze(Maze maze)
         {
-            this.width = width;
-            this.height = height;
-        }
+            maze.map = new char[maze.width, maze.height];
 
-        public void InitializeMaze(ref char[,] maze)
-        {
-            maze = new char[width, height];
-
-            for (int i = 0; i < width; i++)
+            for (int i = 0; i < maze.width; i++)
             {
-                for (int j = 0; j < height; j++)
+                for (int j = 0; j < maze.height; j++)
                 {
-                    maze[i, j] = '#'; // Заполняем лабиринт стенами
+                    maze.map[i, j] = '#'; // Заполняем лабиринт стенами
                 }
 
             }
 
             // Устанавливаем вход и выход
-            maze[0, 1] = 'S'; // Вход
-            maze[width - 1, height - 2] = 'E'; // Выход
+            maze.map[1, 0] = 'S'; // Вход
+            maze.map[maze.width - 2, maze.height - 1] = 'E'; // Выход
+            maze.map[1, 1] = 'P';
         }
 
-        public void GenerateMaze(ref char[,] maze, int x, int y)
+        public static void GenerateMaze(Maze maze, int x, int y)
         {
             List<int[]> directions = new List<int[]>
         {
@@ -56,16 +57,17 @@ namespace Rogue_like_Game
                 int newX = x + direction[0];
                 int newY = y + direction[1];
 
-                if (IsInBounds(newX, newY) && maze[newX, newY] == '#')
+                if (IsInBounds(maze, newX, newY) && maze.map[newX, newY] == '#')
                 {
-                    maze[x + direction[0] / 2, y + direction[1] / 2] = ' '; // Открываем проход
-                    maze[newX, newY] = ' ';
-                    GenerateMaze(ref maze, newX, newY);
+                    maze.map[x + direction[0] / 2, y + direction[1] / 2] = ' '; // Открываем проход
+                    maze.map[newX, newY] = ' ';
+                    GenerateMaze(maze, newX, newY);
                 }
             }
         }
-        private void Shuffle<T>(List<T> list)
+        private static void Shuffle<T>(List<T> list)
         {
+            Random random = new Random();
             int n = list.Count;
             for (int i = n - 1; i > 0; i--)
             {
@@ -74,9 +76,9 @@ namespace Rogue_like_Game
             }
         }
 
-        private bool IsInBounds(int x, int y)
+        private static bool IsInBounds(Maze maze, int x, int y)
         {
-            return x >= 0 && x < width && y >= 0 && y < height;
+            return x >= 0 && x < maze.width && y >= 0 && y < maze.height;
         }
     }
 }

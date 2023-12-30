@@ -8,20 +8,26 @@ namespace Rogue_like_Game
 {
     internal class Game
     {
-        private int width = 23;
-        private int height = 23;
-        private char[,] maze;
-        private MazeManager maze_manager;
-        private Renderer renderer;
+        private Maze maze;
+        private Player player;
         public Game() 
         {
-            maze_manager = new MazeManager(width,height);
-            renderer = new Renderer();
+            maze = new Maze(23,23); //в конструктор передаем размер лабиринта. Обязательно нечетное число!!!
+            player = new Player(1,1);
         }
         public void Run()
         {
-            maze_manager.InitializeMaze(ref maze);
-            maze_manager.GenerateMaze(ref maze, 1, 1);
+            do
+            {
+                MazeManager.InitializeMaze(maze);
+                MazeManager.GenerateMaze(maze, 1, 1);
+                Update();
+                player.ResetPlayerFields();
+                Console.WriteLine("Do you want to play again? (y/n)");
+            } while (Console.ReadKey(true).Key == ConsoleKey.Y);
+        }
+        private void Update() 
+        {
             do
             {
 
@@ -30,10 +36,10 @@ namespace Rogue_like_Game
                 //PlaceMeleeEnemy();
                 //PlaceArcherEnemy();
                 //RunGame();
-                renderer.PrintMaze(maze, width, height);
-                Thread.Sleep(1000);
-                Console.WriteLine("Do you want to play again? (y/n)");
-            } while (Console.ReadKey(true).Key == ConsoleKey.Y);
+                Renderer.PrintMaze(maze);
+                MoveManager.MovePlayer(maze, player);
+                //move_manager.MovePlayer(ref player);
+            } while (player.IsAlive && !player.IsEscaped);
         }
     }
 }
