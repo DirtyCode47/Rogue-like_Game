@@ -13,9 +13,12 @@ namespace Rogue_like_Game
         private Zombie zombie;
         public Game() 
         {
-            maze = new Maze(11,11); //в конструктор передаем размер лабиринта. Обязательно нечетное число!!! 23/23
+            //координаты так проставлены в рамках типо "геймдизайна", можно менять только размер лабиринта.
+            //Но в качестве передаваемых параметров в лабиринт должны быть не совсем маленькие
+            //и одинаковые нечетные числа.
+            maze = new Maze(11,11); //в конструктор передаем размер лабиринта. Обязательно нечетное число!!!  23/23 - топ
             player = new Player(1,1); //координаты спавна игрока
-            zombie = new Zombie(1,maze.width-2);
+            zombie = new Zombie(1,maze.width-2); //координаты спавна зомби
         }
         public void Run()
         {
@@ -23,8 +26,7 @@ namespace Rogue_like_Game
             {
                 CreateMaze(maze);
                 Update();
-                player.ResetPlayerFields();
-                zombie.ResetZombieFields(maze);
+
                 Console.WriteLine("Do you want to play again? (y/n)");
             } while (Console.ReadKey(true).Key == ConsoleKey.Y);
         }
@@ -38,17 +40,18 @@ namespace Rogue_like_Game
         {
             do
             {
-
-                //PrintMaze();
-                //PlacePlayer();
-                //PlaceMeleeEnemy();
-                //PlaceArcherEnemy();
-                //RunGame();
                 Renderer.PrintMaze(maze);
                 ActionManager.MovePlayer(maze, zombie, player);
                 ActionManager.MoveZombie(maze, zombie, player);
-                //move_manager.MovePlayer(ref player);
             } while (player.IsAlive && !player.IsEscaped);
+
+            ResetAllFields();
+        }
+        
+        private void ResetAllFields()
+        {
+            player.ResetPlayerFields();
+            zombie.ResetZombieFields(maze);
         }
     }
 }

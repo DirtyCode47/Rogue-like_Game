@@ -9,11 +9,6 @@ namespace Rogue_like_Game
 {
     internal static class ActionManager
     {
-        //private Player player;
-        //public MoveManager(char[,] maze, Player player)
-        //{
-        //    this.player = player;
-        //}
         public static void MovePlayer(Maze maze,Zombie zombie,Player player)
         {
             var key = Console.ReadKey(true);
@@ -56,7 +51,7 @@ namespace Rogue_like_Game
 
             var random = new Random();
 
-            bool is_visible_x = false; //Види
+            bool is_visible_x = false; 
             bool is_visible_y = false;
 
             if (player.X == zombie.X)  //в данном блоке проверка, видит ли зомби игрока справа или слева
@@ -84,7 +79,7 @@ namespace Rogue_like_Game
                 }
             }
 
-            if(is_visible_x) //Движется в сторону игрока вправо или влево, если его видит
+            if(is_visible_x) //Движется в сторону игрока вправо или влево, если его видит с одной из этих сторон
             {
                 if(player.Y < zombie.Y)
                 {
@@ -99,7 +94,7 @@ namespace Rogue_like_Game
                 }
             }
 
-            else if(is_visible_y)  //Движется в сторону игрока вверх или вниз, если его видит
+            else if(is_visible_y)  //Движется в сторону игрока вверх или вниз, если его видит с одной из этих сторон
             {
                 if(player.X < zombie.X)
                 {
