@@ -24,6 +24,7 @@ namespace Rogue_like_Game
             X = 1;
             Y = 1;
             IsEscaped = false;
+            IsAlive = true;
         }
     }
 }

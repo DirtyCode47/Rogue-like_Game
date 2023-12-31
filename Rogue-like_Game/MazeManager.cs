@@ -65,6 +65,10 @@ namespace Rogue_like_Game
                 }
             }
         }
+        public static void SpawnEnemies(Maze maze,Zombie zombie)
+        {
+            maze.map[zombie.X, zombie.Y] = 'Z';
+        }
         private static void Shuffle<T>(List<T> list)
         {
             Random random = new Random();
