@@ -11,6 +11,7 @@ namespace Rogue_like_Game
         public char[,] map;
         public int width = 23; //было 23
         public int height = 23; 
+
         public Maze(int width, int height)
         {
             this.width = width;

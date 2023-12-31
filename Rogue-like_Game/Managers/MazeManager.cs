@@ -8,18 +8,6 @@ namespace Rogue_like_Game
 {
     internal static class MazeManager
     {
-        //public char[,] maze;
-        //public int width;
-        //public int height;
-      
-
-        //public MazeManager()
-        //{ }
-        //public MazeManager(int width, int height)
-        //{
-        //    this.width = width;
-        //    this.height = height;
-        //}
 
         public static void InitializeMaze(Maze maze)
         {
@@ -37,7 +25,7 @@ namespace Rogue_like_Game
             // Устанавливаем вход и выход
             maze.map[1, 0] = 'S'; // Вход
             maze.map[maze.width - 2, maze.height - 1] = 'E'; // Выход
-            maze.map[1, 1] = 'P';
+            maze.map[1, 1] = 'P'; //игрок
         }
 
         public static void GenerateMaze(Maze maze, int x, int y)
@@ -65,7 +53,7 @@ namespace Rogue_like_Game
                 }
             }
         }
-        public static void SpawnEnemies(Maze maze,Zombie zombie)
+        public static void SpawnEnemies(Maze maze,Zombie zombie) //проставляем символы врагов на карте
         {
             maze.map[zombie.X, zombie.Y] = 'Z';
         }

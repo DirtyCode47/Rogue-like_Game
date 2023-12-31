@@ -34,7 +34,7 @@ namespace Rogue_like_Game
                 Renderer.PrintMaze(maze);
                 player.IsAlive = false;
             }
-            if(player.X == maze.width - 2 && player.Y == maze.height - 1) 
+            if(player.X == maze.width - 2 && player.Y == maze.height - 1) //Если игрок нашел выход
             {
                 player.IsEscaped = true;
             }

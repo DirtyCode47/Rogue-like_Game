@@ -20,7 +20,7 @@ namespace Rogue_like_Game
             player = new Player(1,1); //координаты спавна игрока
             zombie = new Zombie(1,maze.width-2); //координаты спавна зомби
         }
-        public void Run()
+        public void Run() 
         {
             do
             {
@@ -28,7 +28,8 @@ namespace Rogue_like_Game
                 Update();
 
                 Console.WriteLine("Do you want to play again? (y/n)");
-            } while (Console.ReadKey(true).Key == ConsoleKey.Y);
+            } while (Console.ReadKey(true).Key == ConsoleKey.Y); 
+            //В случае, когда уровень закончится, можно будет нажать Y для перехода на следующий уровень с новым лабиринтом
         }
         private void CreateMaze(Maze maze)
         {
@@ -36,7 +37,7 @@ namespace Rogue_like_Game
             MazeManager.GenerateMaze(maze, 1, 1);
             MazeManager.SpawnEnemies(maze,zombie);
         }
-        private void Update() 
+        private void Update() //обновляем состояние игры, пока игрок не дойдет до выхода или не умрет
         {
             do
             {
@@ -45,10 +46,10 @@ namespace Rogue_like_Game
                 ActionManager.MoveZombie(maze, zombie, player);
             } while (player.IsAlive && !player.IsEscaped);
 
-            ResetAllFields();
+            ResetAllFields(); //Сброс полей значимых объектов на карте до дефолтного состояния
         }
         
-        private void ResetAllFields()
+        private void ResetAllFields() 
         {
             player.ResetPlayerFields();
             zombie.ResetZombieFields(maze);

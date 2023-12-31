@@ -9,7 +9,6 @@ namespace Rogue_like_Game
 {
     internal static class Renderer
     {
-        //public Renderer() { }
 
         public static void PrintMaze(Maze maze)
         {
@@ -18,7 +17,7 @@ namespace Rogue_like_Game
             {
                 for(int j=0;j<maze.width;j++)
                 {
-                    Console.Write(maze.map[i,j]+" ");
+                    Console.Write(maze.map[i,j]+" "); //Рисуем доп пробел, чтобы решить проблему, что лабиринт смотрится не симметрично
                 }
                 Console.WriteLine();
             }
