@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rogue_like_Game.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,14 +12,16 @@ namespace Rogue_like_Game
         private Maze maze;
         private Player player;
         private Zombie zombie;
+        private Archer archer;
         public Game() 
         {
             //координаты так проставлены в рамках типо "геймдизайна", можно менять только размер лабиринта.
             //Но в качестве передаваемых параметров в лабиринт должны быть не совсем маленькие
             //и одинаковые нечетные числа.
-            maze = new Maze(11,11); //в конструктор передаем размер лабиринта. Обязательно нечетное число!!!  23/23 - топ
+            maze = new Maze(17,17); //в конструктор передаем размер лабиринта. Обязательно нечетное число!!!  23/23 - топ
             player = new Player(1,1); //координаты спавна игрока
             zombie = new Zombie(1,maze.width-2); //координаты спавна зомби
+            archer = new Archer(maze.height - 2, maze.width - 2);
         }
         public void Run() 
         {
@@ -35,7 +38,7 @@ namespace Rogue_like_Game
         {
             MazeManager.InitializeMaze(maze);
             MazeManager.GenerateMaze(maze, 1, 1);
-            MazeManager.SpawnEnemies(maze,zombie);
+            MazeManager.SpawnEnemies(maze,zombie,archer);
         }
         private void Update() //обновляем состояние игры, пока игрок не дойдет до выхода или не умрет
         {
@@ -44,6 +47,7 @@ namespace Rogue_like_Game
                 Renderer.PrintMaze(maze);
                 ActionManager.MovePlayer(maze, zombie, player);
                 ActionManager.MoveZombie(maze, zombie, player);
+                ActionManager.MoveArcher(maze, archer, player);
             } while (player.IsAlive && !player.IsEscaped);
 
             ResetAllFields(); //Сброс полей значимых объектов на карте до дефолтного состояния

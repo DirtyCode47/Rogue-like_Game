@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Rogue_like_Game.Entities;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -168,6 +170,30 @@ namespace Rogue_like_Game
             }
         }
 
+        public static void MoveArcher(Maze maze, Archer archer, Player player)
+        {
+            var random = new Random(); 
+            int delta_x, delta_y;
+            if (random.NextDouble() > 0.2)
+            {
+                bool is_moved = false;
+                while (!is_moved)
+                {
+                    int random_direction = random.Next(4);
+                    (delta_x, delta_y) = random_direction switch
+                    {
+                        0 => (-1, 0),
+                        1 => (1, 0),
+                        2 => (0, -1),
+                        3 => (0, 1),
+                        _ => (0, 0)
+                    };
+                    is_moved = TryMove(maze, archer, delta_x, delta_y);
+                }
+            }
+            //ZombieTryAttack();
+        }
+
         private static bool IsInMeleeAtackRange(Player player, Zombie zombie)
         {
             return (player.X - zombie.X == 0 && Math.Abs(player.Y - zombie.Y) == 1) || (player.Y - zombie.Y == 0 && Math.Abs(player.X - zombie.X) == 1);
@@ -179,7 +205,14 @@ namespace Rogue_like_Game
             int newX = entity.X + deltaX;
             int newY = entity.Y + deltaY;
 
-            if (IsInBounds(maze, newX, newY) && (maze.map[newX, newY] == ' ' || maze.map[newX, newY] == 'E'))
+            if(entity is Player && maze.map[newX, newY] == 'E')
+            {
+                MoveEntity();
+                is_moved = true;
+                return is_moved;
+            }
+
+            if (IsInBounds(maze, newX, newY) && maze.map[newX, newY] == ' ')
             {
                 maze.map[entity.X, entity.Y] = ' '; // Освобождаем текущую клетку
                 entity.X = newX;
@@ -188,6 +221,16 @@ namespace Rogue_like_Game
                 is_moved = true;
             }
             return is_moved;
+
+
+            void MoveEntity()
+            {
+                maze.map[entity.X, entity.Y] = ' '; // Освобождаем текущую клетку
+                entity.X = newX;
+                entity.Y = newY;
+                maze.map[entity.X, entity.Y] = entity.Symbol; // Помещаем сущность в новую клетку
+                is_moved = true;
+            }
         }
 
         private static bool IsInBounds(Maze maze,int x, int y)

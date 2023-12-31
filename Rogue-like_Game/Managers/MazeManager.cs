@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rogue_like_Game.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -53,9 +54,10 @@ namespace Rogue_like_Game
                 }
             }
         }
-        public static void SpawnEnemies(Maze maze,Zombie zombie) //проставляем символы врагов на карте
+        public static void SpawnEnemies(Maze maze,Zombie zombie, Archer archer) //проставляем символы врагов на карте
         {
             maze.map[zombie.X, zombie.Y] = 'Z';
+            maze.map[archer.X, archer.Y] = 'A';
         }
         private static void Shuffle<T>(List<T> list)
         {
