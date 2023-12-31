@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Rogue_like_Game
 {
-    internal static class MoveManager
+    internal static class ActionManager
     {
         //private Player player;
         //public MoveManager(char[,] maze, Player player)
@@ -34,7 +34,7 @@ namespace Rogue_like_Game
                     break;
             }
 
-            if ((player.X - zombie.X == 0 && Math.Abs(player.Y - zombie.Y) == 1) || (player.Y - zombie.Y == 0 && Math.Abs(player.X - zombie.X) == 1))
+            if(IsInMeleeAtackRange(player,zombie))
             {
                 Renderer.PrintMaze(maze);
                 player.IsAlive = false;
@@ -47,137 +47,76 @@ namespace Rogue_like_Game
 
         public static void MoveZombie(Maze maze, Zombie zombie, Player player)
         {
-            //bool CheckIfVisible()
-            //{
-            //    return true;
-            //}
-
             if (IsInMeleeAtackRange(player,zombie))
             {
+                player.IsAlive=false;
                 return;
             }
+
 
             var random = new Random();
 
             bool is_visible_x = false; //Види
             bool is_visible_y = false;
 
-            if (player.X == zombie.X) 
+            if (player.X == zombie.X)  //в данном блоке проверка, видит ли зомби игрока справа или слева
             {
                 if(player.Y < zombie.Y)
-                {
-                    for(int i=player.Y+1;i<zombie.Y;i++)
-                    {
-                        if (maze.map[zombie.X,i] != ' ' ) 
-                        {
-                            is_visible_x = false;
-                            break;
-                        }
-                        is_visible_x = true; //Код дойдет до сюда, если зомби увидел игрока слева или справа (Нет стен между игроком и зомби)
-                    }
+                {     
+                    is_visible_x = IsVisibleOnSameX(player,zombie); 
                 }
                 else 
                 {
-                    for (int i = zombie.Y+1; i < player.Y; i++)
-                    {
-                        if (maze.map[zombie.X, i] != ' ')
-                        {
-                            is_visible_x=false;
-                            break;
-                        }
-                        is_visible_x = true;
-                    }
+                    is_visible_x = IsVisibleOnSameX(zombie,player);
                 }
             }
-            if(player.Y == zombie.Y)
+
+
+            if(player.Y == zombie.Y) //в данном блоке проверка, видит ли зомби игрока снизу или сверху
             {
                 if (player.X < zombie.X)
                 {
-                    for (int i = player.X+1; i < zombie.X; i++)
-                    {
-                        if (maze.map[i, zombie.Y] != ' ')
-                        {
-                            is_visible_y = false;
-                            break;
-                        }
-                        is_visible_y = true; //Код дойдет до сюда, если зомби увидел игрока снизу или сверху (Нет стен между игроком и зомби)
-                    }
+                    is_visible_y = IsVisibleOnSameY(player,zombie);
                 }
                 else
                 {
-                    for (int i = zombie.X + 1; i < player.X; i++)
-                    {
-                        if (maze.map[i, zombie.Y] != ' ')
-                        {
-                            is_visible_y = false;
-                            break;
-                        }
-                        is_visible_y = true;
-                    }
+                    is_visible_y= IsVisibleOnSameY(zombie, player);
                 }
             }
 
-
-            
-            if(is_visible_x)
+            if(is_visible_x) //Движется в сторону игрока вправо или влево, если его видит
             {
                 if(player.Y < zombie.Y)
                 {
-                    //maze.map[zombie.X, zombie.Y] = ' ';
-                    //zombie.Y--;
                     TryMove(maze, zombie, 0, -1);
-
-                    if (IsInMeleeAtackRange(player, zombie))
-                    {
-                        Renderer.PrintMaze(maze);
-                        player.IsAlive = false;
-                    }
+                    ZombieTryAttack();
                 }
 
                 if(player.Y > zombie.Y)
                 {
-                    //maze.map[zombie.X, zombie.Y] = ' ';
-                    //zombie.Y++;
                     TryMove(maze, zombie, 0, 1);
-
-                    if (IsInMeleeAtackRange(player, zombie))
-                    {
-                        Renderer.PrintMaze(maze);
-                        player.IsAlive = false;
-                    }
+                    ZombieTryAttack();
                 }
             }
-            else if(is_visible_y)
+
+            else if(is_visible_y)  //Движется в сторону игрока вверх или вниз, если его видит
             {
                 if(player.X < zombie.X)
                 {
-                    //maze.map[zombie.X, zombie.Y] = ' ';
-                    //zombie.X--;
                     TryMove(maze, zombie, -1, 0);
-
-                    if (IsInMeleeAtackRange(player, zombie))
-                    {
-                        Renderer.PrintMaze(maze);
-                        player.IsAlive = false;
-                    }
+                    ZombieTryAttack();
                 }
                 if (player.X > zombie.X) 
                 {
-                    //maze.map[zombie.X, zombie.Y] = ' ';
-                    //zombie.X++;
                     TryMove(maze, zombie, 1, 0);
-
-                    if (IsInMeleeAtackRange(player, zombie))
-                    {
-                        Renderer.PrintMaze(maze);
-                        player.IsAlive = false;
-                    }
+                    ZombieTryAttack();
                 }
             }
-            else
+
+            else  //Рандомное перемещение с вероятностью 80%, если зомби не видит игрока
             {
                 int delta_x, delta_y;
-                if (random.NextDouble() > 0.4) //Рандомное перемещение
+                if (random.NextDouble() > 0.2) 
                 {
                     bool is_moved = false;
                     while (!is_moved)
@@ -194,6 +133,38 @@ namespace Rogue_like_Game
                         is_moved = TryMove(maze, zombie, delta_x, delta_y);
                     }
                 }
+                ZombieTryAttack();
+            }
+
+
+            bool IsVisibleOnSameX(Entity entity_1, Entity entity_2)
+            {
+                for (int i = entity_1.Y + 1; i < entity_2.Y; i++)
+                {
+                    if (maze.map[zombie.X, i] != ' ')
+                    {
+                        return false;
+                    }
+                }
+                return true; //Код дойдет до сюда, если зомби может видеть игрока слева или справа (Нет стен между игроком и зомби)
+            }
+
+
+            bool IsVisibleOnSameY(Entity entity_1, Entity entity_2)
+            {
+                for (int i = entity_1.X + 1; i < entity_2.X; i++)
+                {
+                    if (maze.map[i, zombie.Y] != ' ')
+                    {
+                        return false;
+                    }
+                }
+                return true; //Код дойдет до сюда, если зомби может видеть игрока снизу или сверху (Нет стен между игроком и зомби)
+            }
+
+
+            void ZombieTryAttack()
+            {
                 if (IsInMeleeAtackRange(player, zombie))
                 {
                     Renderer.PrintMaze(maze);

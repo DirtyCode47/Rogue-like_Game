@@ -45,8 +45,8 @@ namespace Rogue_like_Game
                 //PlaceArcherEnemy();
                 //RunGame();
                 Renderer.PrintMaze(maze);
-                MoveManager.MovePlayer(maze, zombie,player);
-                MoveManager.MoveZombie(maze, zombie, player);
+                ActionManager.MovePlayer(maze, zombie, player);
+                ActionManager.MoveZombie(maze, zombie, player);
                 //move_manager.MovePlayer(ref player);
             } while (player.IsAlive && !player.IsEscaped);
         }
