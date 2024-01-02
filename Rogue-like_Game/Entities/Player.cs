@@ -14,8 +14,6 @@ namespace Rogue_like_Game
             IsAlive = true;
             IsEscaped = false;
         }
-        public int AttackPower { get; set; } = 2; // Сила атаки игрока
-        public int Health { get; set; } = 10; // Здоровье игрока
         public bool IsAlive { get; set; }
         public bool IsEscaped { get; set; }
 

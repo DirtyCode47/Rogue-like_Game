@@ -14,7 +14,7 @@ namespace Rogue_like_Game.Entities
             Y = 0;
         }
         
-        public bool IsExist = false;
+        public bool IsExist { get; set; } = false;
         
 
         public void ResetArrowFields()

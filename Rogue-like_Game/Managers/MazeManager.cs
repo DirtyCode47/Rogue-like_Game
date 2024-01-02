@@ -23,7 +23,6 @@ namespace Rogue_like_Game
 
             }
 
-            // Устанавливаем вход и выход
             maze.map[1, 0] = 'S'; // Вход
             maze.map[maze.width - 2, maze.height - 1] = 'E'; // Выход
             maze.map[1, 1] = 'P'; //игрок

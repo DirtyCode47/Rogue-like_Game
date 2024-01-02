@@ -9,8 +9,8 @@ namespace Rogue_like_Game
     internal class Maze
     {
         public char[,] map;
-        public int width = 23; //было 23
-        public int height = 23; 
+        public int width { get; set; } = 23; 
+        public int height { get; set; } = 23; 
 
         public Maze(int width, int height)
         {

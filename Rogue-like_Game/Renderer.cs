@@ -13,12 +13,14 @@ namespace Rogue_like_Game
         public static void PrintMaze(Maze maze)
         {
             Console.Clear();
+
             for(int i=0;i<maze.height;i++)
             {
                 for(int j=0;j<maze.width;j++)
                 {
-                    Console.Write(maze.map[i,j]+" "); //Рисуем доп пробел, чтобы решить проблему, что лабиринт смотрится не симметрично
+                    Console.Write(maze.map[i,j]+" "); //Рисуем доп пробел, чтобы решить проблему, что лабиринт смотрится не очень симметрично
                 }
+
                 Console.WriteLine();
             }
         }
