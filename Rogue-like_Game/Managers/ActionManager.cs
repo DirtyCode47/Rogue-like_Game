@@ -1,6 +1,7 @@
 ﻿using Rogue_like_Game.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -170,28 +171,221 @@ namespace Rogue_like_Game
             }
         }
 
-        public static void MoveArcher(Maze maze, Archer archer, Player player)
+        public static void MoveArcherOrArrow(Maze maze, Archer archer, Player player)
         {
-            var random = new Random(); 
-            int delta_x, delta_y;
-            if (random.NextDouble() > 0.2)
-            {
-                bool is_moved = false;
-                while (!is_moved)
+
+
+            if (archer.arrow.IsExist) //Если стрела существует, перемещаем её вплоть до стены, либо игрока. 
+            {                         //А стрелок в это время неподвижен
+                if (archer.arrow.X == archer.X)
                 {
-                    int random_direction = random.Next(4);
-                    (delta_x, delta_y) = random_direction switch
+                    if (archer.arrow.Y < archer.Y)
                     {
-                        0 => (-1, 0),
-                        1 => (1, 0),
-                        2 => (0, -1),
-                        3 => (0, 1),
-                        _ => (0, 0)
-                    };
-                    is_moved = TryMove(maze, archer, delta_x, delta_y);
+                        bool is_moved = TryMove(maze, archer.arrow, 0, -1);
+
+                        //if (player.X == archer.arrow.X && archer.arrow.Y - player.Y <= 1) 
+                        if (player.X == archer.arrow.X && archer.arrow.Y == player.Y)
+                        {
+                            player.IsAlive = false;
+                            Renderer.PrintMaze(maze);
+                        }
+
+                        if(!is_moved)
+                        {
+                            maze.map[archer.arrow.X, archer.arrow.Y] = ' ';
+                            archer.arrow.ResetArrowFields();
+                        }
+                        return;
+                    }
+                    else
+                    {
+                        bool is_moved = TryMove(maze, archer.arrow, 0, 1);
+
+                        //if (player.X == archer.arrow.X && player.Y == archer.arrow.Y)
+
+                        if (player.X == archer.arrow.X && player.Y - archer.arrow.Y <= 1)
+                        {
+                            player.IsAlive = false;
+                            Renderer.PrintMaze(maze);
+                        }
+                        if (!is_moved)
+                        {
+                            maze.map[archer.arrow.X, archer.arrow.Y] = ' ';
+                            archer.arrow.ResetArrowFields();
+                        }
+                        return;
+                    }
+                }
+
+                if (archer.arrow.Y == archer.Y)
+                {
+                    if (archer.arrow.X < archer.X)
+                    {
+                        bool is_moved = TryMove(maze, archer.arrow, -1, 0);
+                        //if (player.Y == archer.arrow.Y && archer.arrow.X == player.X)
+
+                        if (player.Y == archer.arrow.Y && archer.arrow.X - player.X <= 1)
+                        {
+                            player.IsAlive = false;
+                            Renderer.PrintMaze(maze);
+                        }
+                        if (!is_moved)
+                        {
+                            maze.map[archer.arrow.X, archer.arrow.Y] = ' ';
+                            archer.arrow.ResetArrowFields();
+                        }
+                        return;
+                    }
+                    else
+                    {
+                        bool is_moved = TryMove(maze, archer.arrow, 1, 0);
+                        //if (player.Y == archer.arrow.Y && archer.arrow.X == player.X)
+
+                        if (player.Y == archer.arrow.Y && archer.arrow.X - player.X <= 1)
+                        {
+                            player.IsAlive = false;
+                            Renderer.PrintMaze(maze);
+                        }
+                        if (!is_moved)
+                        {
+                            maze.map[archer.arrow.X, archer.arrow.Y] = ' ';
+                            archer.arrow.ResetArrowFields();
+                        }
+                        return;
+                    }
                 }
             }
-            //ZombieTryAttack();
+
+
+            bool is_visible_x = false;
+            bool is_visible_y = false;
+            
+            if (player.X == archer.X)  //в данном блоке проверка, видит ли лучник игрока справа или слева
+            {
+                if (player.Y < archer.Y)
+                {
+                    is_visible_x = IsVisibleOnSameX(player, archer);
+                }
+                else
+                {
+                    is_visible_x = IsVisibleOnSameX(archer, player);
+                }
+            }
+
+
+            if (player.Y == archer.Y) //в данном блоке проверка, видит ли лучник игрока снизу или сверху
+            {
+                if (player.X < archer.X)
+                {
+                    is_visible_y = IsVisibleOnSameY(player, archer);
+                }
+                else
+                {
+                    is_visible_y = IsVisibleOnSameY(archer, player);
+                }
+            }
+
+            
+
+
+
+
+            if(is_visible_x)   //Логика движения лучника, а также спавн стрелы, если лучник увидел игрока
+            {
+                archer.arrow.Symbol = '-';
+                if (archer.Y>player.Y)
+                {
+                    archer.arrow.X = archer.X;
+                    archer.arrow.Y = archer.Y;
+                    TryMove(maze, archer.arrow,0,-1);
+
+                    //Console.WriteLine($"Значение переменной: {archer.arrow.Symbol},{archer.arrow.X},{archer.arrow.Y}");
+                    //Thread.Sleep(100000);
+                }
+                else
+                {
+                    archer.arrow.X = archer.X;
+                    archer.arrow.Y = archer.Y;
+                    TryMove(maze, archer.arrow, 0, 1);
+
+                    //TryMove(maze, archer.arrow, archer.X+1, archer.Y);
+                    //Console.WriteLine($"Значение переменной: {archer.arrow.Symbol},{archer.arrow.X},{archer.arrow.Y}");
+                    //Thread.Sleep(100000);
+                }
+                archer.arrow.IsExist = true;
+            }
+            else if(is_visible_y)
+            {
+                archer.arrow.Symbol = '|';
+                if (archer.X > player.X)
+                {
+                    archer.arrow.X = archer.X;
+                    archer.arrow.Y = archer.Y;
+                    TryMove(maze, archer.arrow, -1, 0);
+
+                    //TryMove(maze, archer.arrow, archer.X, archer.Y-1);
+                    //Console.WriteLine($"Значение переменной: {archer.arrow.Symbol},{archer.arrow.X},{archer.arrow.Y}");
+                    //Thread.Sleep(100000);
+                }
+                else
+                {
+                    archer.arrow.X = archer.X;
+                    archer.arrow.Y = archer.Y;
+                    TryMove(maze, archer.arrow, 1, 0);
+
+                    //TryMove(maze, archer.arrow, archer.X, archer.Y+1);
+                    //Console.WriteLine($"Значение переменной: {archer.arrow.Symbol},{archer.arrow.X},{archer.arrow.Y}");
+                    //Thread.Sleep(100000);
+                }
+                archer.arrow.IsExist= true;
+            }
+            else
+            {
+                var random = new Random();
+                int delta_x, delta_y;
+                if (random.NextDouble() > 0.2)
+                {
+                    bool is_moved = false;
+                    while (!is_moved)
+                    {
+                        int random_direction = random.Next(4);
+                        (delta_x, delta_y) = random_direction switch
+                        {
+                            0 => (-1, 0),
+                            1 => (1, 0),
+                            2 => (0, -1),
+                            3 => (0, 1),
+                            _ => (0, 0)
+                        };
+                        is_moved = TryMove(maze, archer, delta_x, delta_y);
+                    }
+                }
+            }
+
+            bool IsVisibleOnSameX(Entity entity_1, Entity entity_2)
+            {
+                for (int i = entity_1.Y + 1; i < entity_2.Y; i++)
+                {
+                    if (maze.map[archer.X, i] != ' ')
+                    {
+                        return false;
+                    }
+                }
+                return true; //Код дойдет до сюда, если зомби может видеть игрока слева или справа (Нет стен между игроком и зомби)
+            }
+
+
+            bool IsVisibleOnSameY(Entity entity_1, Entity entity_2)
+            {
+                for (int i = entity_1.X + 1; i < entity_2.X; i++)
+                {
+                    if (maze.map[i, archer.Y] != ' ')
+                    {
+                        return false;
+                    }
+                }
+                return true; //Код дойдет до сюда, если зомби может видеть игрока снизу или сверху (Нет стен между игроком и зомби)
+            }
         }
 
         private static bool IsInMeleeAtackRange(Player player, Zombie zombie)
@@ -207,30 +401,44 @@ namespace Rogue_like_Game
 
             if(entity is Player && maze.map[newX, newY] == 'E')
             {
-                MoveEntity();
+                maze.map[entity.X, entity.Y] = ' ';
+                MoveToNewPosition();
                 is_moved = true;
                 return is_moved;
+            }
+
+            if(entity is Arrow && IsInBounds(maze, newX, newY) && maze.map[newX, newY] == ' ')
+            {
+                if (maze.map[newX-deltaX,newY-deltaY] == 'A')
+                {
+                    MoveToNewPosition();
+                    is_moved = true;
+                }
             }
 
             if (IsInBounds(maze, newX, newY) && maze.map[newX, newY] == ' ')
             {
                 maze.map[entity.X, entity.Y] = ' '; // Освобождаем текущую клетку
-                entity.X = newX;
-                entity.Y = newY;
-                maze.map[entity.X, entity.Y] = entity.Symbol; // Помещаем сущность в новую клетку
+                MoveToNewPosition();
                 is_moved = true;
             }
             return is_moved;
 
-
-            void MoveEntity()
+            void MoveToNewPosition()
             {
-                maze.map[entity.X, entity.Y] = ' '; // Освобождаем текущую клетку
                 entity.X = newX;
                 entity.Y = newY;
                 maze.map[entity.X, entity.Y] = entity.Symbol; // Помещаем сущность в новую клетку
-                is_moved = true;
             }
+
+            //void MoveEntity()
+            //{
+            //    maze.map[entity.X, entity.Y] = ' '; // Освобождаем текущую клетку
+            //    entity.X = newX;
+            //    entity.Y = newY;
+            //    maze.map[entity.X, entity.Y] = entity.Symbol; // Помещаем сущность в новую клетку
+            //    is_moved = true;
+            //}
         }
 
         private static bool IsInBounds(Maze maze,int x, int y)

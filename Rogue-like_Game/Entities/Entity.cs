@@ -17,5 +17,7 @@ namespace Rogue_like_Game
             X = x;
             Y = y;
         }
+
+        public Entity() { }
     }
 }

@@ -18,7 +18,7 @@ namespace Rogue_like_Game
             //координаты так проставлены в рамках типо "геймдизайна", можно менять только размер лабиринта.
             //Но в качестве передаваемых параметров в лабиринт должны быть не совсем маленькие
             //и одинаковые нечетные числа.
-            maze = new Maze(17,17); //в конструктор передаем размер лабиринта. Обязательно нечетное число!!!  23/23 - топ
+            maze = new Maze(23,23); //в конструктор передаем размер лабиринта. Обязательно нечетное число!!!  23/23 - топ
             player = new Player(1,1); //координаты спавна игрока
             zombie = new Zombie(1,maze.width-2); //координаты спавна зомби
             archer = new Archer(maze.height - 2, maze.width - 2);
@@ -47,7 +47,7 @@ namespace Rogue_like_Game
                 Renderer.PrintMaze(maze);
                 ActionManager.MovePlayer(maze, zombie, player);
                 ActionManager.MoveZombie(maze, zombie, player);
-                ActionManager.MoveArcher(maze, archer, player);
+                ActionManager.MoveArcherOrArrow(maze, archer, player);
             } while (player.IsAlive && !player.IsEscaped);
 
             ResetAllFields(); //Сброс полей значимых объектов на карте до дефолтного состояния
@@ -57,6 +57,7 @@ namespace Rogue_like_Game
         {
             player.ResetPlayerFields();
             zombie.ResetZombieFields(maze);
+            archer.ResetArcherFields(maze);
         }
     }
 }
