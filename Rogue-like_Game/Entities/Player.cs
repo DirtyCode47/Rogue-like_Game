@@ -11,6 +11,9 @@ namespace MazeRogueLike.Entities
     {
         private bool is_alive;
         private bool is_escaped;
+
+        public delegate void BeingAttackedHandler();
+        public event BeingAttackedHandler BeingAttacked;
         public Player(int x,int y,char symbol):base(x,y,symbol)
         {
             is_alive = true;
@@ -28,7 +31,7 @@ namespace MazeRogueLike.Entities
             set => is_escaped = value;
         }
 
-        public override void ResetFields()
+        public override void ResetFields(Maze maze)
         {
             X = 1;
             Y = 1;
@@ -36,7 +39,7 @@ namespace MazeRogueLike.Entities
             IsEscaped = false;
         }
 
-        public override void Move(Maze maze)
+        public override void Act(Maze maze)
         {
             var key = Console.ReadKey(true);
 

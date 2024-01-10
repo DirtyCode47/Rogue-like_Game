@@ -47,8 +47,8 @@ namespace MazeRogueLike.Entities
         //    this.y = y;
         //}
 
-        public abstract void ResetFields();
-        public abstract void Move(Maze maze);
+        public abstract void ResetFields(Maze maze);  //Сбросить все поля игровой сущности в состояние начала игры
+        public abstract void Act(Maze maze);  //Действие за один ход
         //public abstract bool TryMove(Maze maze, int deltaX, int deltaY);
         //public abstract bool IsInBounds(Maze maze, int x, int y);
 

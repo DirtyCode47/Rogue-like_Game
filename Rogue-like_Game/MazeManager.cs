@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rogue_like_Game.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,11 @@ namespace MazeRogueLike
 {
     internal static class MazeManager
     {
-        public static void CreateMaze(Maze maze)
+        public static void CreateMaze(Maze maze, Zombie zombie, Archer archer)
         {
             InitializeMaze(maze);
             GenerateMaze(maze,1,1);
-            //DrawEnemySymbolsOnDefaultPositions();
+            LocateEnemiesSymbols(maze, zombie, archer);
         }
         private static void InitializeMaze(Maze maze)
         {
@@ -57,11 +58,11 @@ namespace MazeRogueLike
                 }
             }
         }
-        //public static void SpawnEnemies(Maze maze, Zombie zombie, Archer archer) //проставляем символы врагов на карте
-        //{
-        //    maze.Map[zombie.X, zombie.Y] = 'Z';
-        //    maze.Map[archer.X, archer.Y] = 'A';
-        //}
+        public static void LocateEnemiesSymbols(Maze maze, Zombie zombie, Archer archer) //проставляем символы врагов на карте
+        {
+            maze.Map[zombie.X, zombie.Y] = 'Z';
+            maze.Map[archer.X, archer.Y] = 'A';
+        }
         private static void Shuffle<T>(List<T> list)
         {
             Random random = new Random();
