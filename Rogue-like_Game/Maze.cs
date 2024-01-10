@@ -4,18 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rogue_like_Game
+namespace MazeRogueLike
 {
     internal class Maze
     {
-        public char[,] map;
-        public int width { get; set; } = 23; 
-        public int height { get; set; } = 23; 
+        private int _width;
+        private int _height;
 
         public Maze(int width, int height)
         {
-            this.width = width;
-            this.height = height;
+            _width = width;
+            _height = height;
         }
+        public char[,] Map;
+        public int Width { get; set; } = 23;
+        public int Height { get; set; } = 23;
     }
 }

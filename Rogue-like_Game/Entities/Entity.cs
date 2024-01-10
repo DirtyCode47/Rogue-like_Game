@@ -4,20 +4,54 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rogue_like_Game
+namespace MazeRogueLike.Entities
 {
-    internal class Entity
+    internal abstract class Entity
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public char Symbol { get; set; }
+        private int x;
+        private int y;
+        private char symbol;
 
-        public Entity(int x,int y)
+        public Entity(int x, int y, char symbol)
         {
-            X = x;
-            Y = y;
+            this.x = x;
+            this.y = y;
+            this.symbol = symbol;
         }
 
-        public Entity() { }
+        public int X
+        {
+            get => x;
+            set => x = value;
+        }
+
+        public int Y
+        {
+            get => y;
+            set => y = value;
+        }
+        public char Symbol
+        {
+            get => symbol;
+            set => symbol = value;
+        }
+
+
+        protected bool IsInBounds(Maze maze,int x,int y)
+        {
+            return x >= 0 && x < maze.Width && y >= 0 && y < maze.Height;
+        }
+        //public Entity(int x,int y)
+        //{
+        //    this.x = x;
+        //    this.y = y;
+        //}
+
+        public abstract void ResetFields();
+        public abstract void Move(Maze maze);
+        //public abstract bool TryMove(Maze maze, int deltaX, int deltaY);
+        //public abstract bool IsInBounds(Maze maze, int x, int y);
+
+        //public Entity() { }
     }
 }
