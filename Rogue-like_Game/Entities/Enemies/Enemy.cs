@@ -1,12 +1,13 @@
-﻿using Rogue_like_Game;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using Rogue_like_Game.MazeLogic;
+using Rogue_like_Game.Entities.Players;
 
-namespace Rogue_like_Game.Entities
+namespace Rogue_like_Game.Entities.Enemies
 {
     internal abstract class Enemy : Entity
     {
@@ -27,7 +28,7 @@ namespace Rogue_like_Game.Entities
                 }
             }
 
-            if(available_directions_to_move.Count == 0)
+            if (available_directions_to_move.Count == 0)
             {
                 return;
             }

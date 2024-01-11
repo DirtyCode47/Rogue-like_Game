@@ -1,18 +1,20 @@
-﻿using Rogue_like_Game;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Rogue_like_Game.MazeLogic;
+using Rogue_like_Game.MazeLogic.Render;
+using Rogue_like_Game.Entities.Players;
 
-namespace Rogue_like_Game.Entities
+namespace Rogue_like_Game.Entities.Enemies
 {
-    internal class Archer:Enemy
+    internal class Archer : Enemy
     {
         public Arrow arrow;
-        public Archer(int x, int y, char symbol) : base(x, y, symbol) 
+        public Archer(int x, int y, char symbol) : base(x, y, symbol)
         {
-            arrow = new Arrow(0,0,'-');
+            arrow = new Arrow(0, 0, '-');
         }
         public override void ResetFields(Maze maze)
         {
@@ -20,7 +22,7 @@ namespace Rogue_like_Game.Entities
             Y = maze.Width - 2;
             arrow.ResetFields(maze);
         }
-        public override void Act(Maze maze,Dictionary<string, Entity> acting_entities)
+        public override void Act(Maze maze, Dictionary<string, Entity> acting_entities)
         {
             Player player = (Player)acting_entities["Player"];
 
@@ -30,8 +32,8 @@ namespace Rogue_like_Game.Entities
                 player.IsAlive = false;
             }
 
-            (int delta_x, int delta_y, bool is_visible) = IsPlayerVisibleOnSameAxis(maze, player); 
-            
+            (int delta_x, int delta_y, bool is_visible) = IsPlayerVisibleOnSameAxis(maze, player);
+
             if (!arrow.IsInAir)
             {
                 if (!is_visible)
@@ -45,7 +47,7 @@ namespace Rogue_like_Game.Entities
             }
             else
             {
-                arrow.Act(maze,acting_entities);
+                arrow.Act(maze, acting_entities);
             }
         }
     }

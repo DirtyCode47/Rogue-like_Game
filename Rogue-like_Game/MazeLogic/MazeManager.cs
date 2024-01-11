@@ -1,18 +1,18 @@
-﻿using Rogue_like_Game.Entities;
+﻿using Rogue_like_Game.Entities.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rogue_like_Game
+namespace Rogue_like_Game.MazeLogic
 {
     internal static class MazeManager
     {
         public static void CreateMaze(Maze maze, Zombie zombie, Archer archer)
         {
             InitializeMaze(maze);
-            GenerateMaze(maze,1,1);
+            GenerateMaze(maze, 1, 1);
             LocateEnemiesSymbols(maze, zombie, archer);
         }
         private static void InitializeMaze(Maze maze)

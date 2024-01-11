@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rogue_like_Game
+namespace Rogue_like_Game.MazeLogic
 {
     internal class Maze
     {

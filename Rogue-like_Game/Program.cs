@@ -1,4 +1,5 @@
-﻿namespace Rogue_like_Game
+﻿using Rogue_like_Game.GameLogic;
+namespace Rogue_like_Game
 {
     internal class Program
     {

@@ -1,27 +1,26 @@
-﻿using Rogue_like_Game.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using Rogue_like_Game.MazeLogic.Render;
+using Rogue_like_Game.MazeLogic;
 
-namespace Rogue_like_Game.Entities
+namespace Rogue_like_Game.Entities.Players
 {
-    internal class Player:Entity
+    internal class Player : Entity
     {
         private bool is_alive;
         private bool is_escaped;
 
-        //public delegate void BeingAttackedHandler();
-        //public event BeingAttackedHandler BeingAttacked;
-        public Player(int x,int y,char symbol):base(x,y,symbol)
+        public Player(int x, int y, char symbol) : base(x, y, symbol)
         {
             is_alive = true;
             is_escaped = false;
         }
 
-        public bool IsAlive 
+        public bool IsAlive
         {
             get => is_alive;
             set => is_alive = value;
@@ -83,7 +82,7 @@ namespace Rogue_like_Game.Entities
 
                 if (maze.Map[newX, newY] == 'E')
                 {
-                    maze.Map[X,Y] = ' ';
+                    maze.Map[X, Y] = ' ';
                     MoveToNewPosition();
                     is_moved = true;
                     return is_moved;
