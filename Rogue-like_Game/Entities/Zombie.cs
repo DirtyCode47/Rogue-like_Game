@@ -19,7 +19,7 @@ namespace Rogue_like_Game.Entities
         {
             Player player = (Player)acting_entities["Player"];
 
-            if(IsNearbyOtherEntity(player))
+            if (IsNearbyOtherEntity(player))
             {
                 Renderer.PrintMaze(maze);
                 player.IsAlive = false;

@@ -51,6 +51,9 @@ namespace Rogue_like_Game
                 {
                     entity.Act(maze, acting_game_entities_dict);
                 }
+                //Console.WriteLine($"Player - X:{acting_game_entities[0].X}\tY:{acting_game_entities[0].Y}");
+                //Console.WriteLine($"Zombie - X:{acting_game_entities[1].X}\tY:{acting_game_entities[1].Y}");
+                //Thread.Sleep(2000);
 
             } while (player.IsAlive && !player.IsEscaped);
 

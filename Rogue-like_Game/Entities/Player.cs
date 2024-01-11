@@ -89,7 +89,7 @@ namespace Rogue_like_Game.Entities
                     return is_moved;
                 }
 
-                if (IsInBounds(maze, newX, newY) && maze.Map[newX, newY] == ' ')
+                if (maze.Map[newX, newY] == ' ')
                 {
                     maze.Map[X, Y] = ' '; // Освобождаем текущую клетку
                     MoveToNewPosition();

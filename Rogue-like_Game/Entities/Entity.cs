@@ -42,15 +42,11 @@ namespace Rogue_like_Game.Entities
             return (X - entity.X == 0 && Math.Abs(Y - entity.Y) == 1) || (Y - entity.Y == 0 && Math.Abs(X - entity.X) == 1);
         }
 
-        protected bool IsInBounds(Maze maze,int x,int y)
-        {
-            return x >= 0 && x < maze.Width && y >= 0 && y < maze.Height;
-        }
-        //public Entity(int x,int y)
+        //protected bool IsInBounds(Maze maze,int x,int y)
         //{
-        //    this.x = x;
-        //    this.y = y;
+        //    return x >= 0 && x < maze.Width && y >= 0 && y < maze.Height;
         //}
+        
 
         public abstract void ResetFields(Maze maze);  //Сбросить все поля игровой сущности в состояние начала игры
         public abstract void Act(Maze maze,Dictionary<string,Entity> entities);  //Действие за один ход

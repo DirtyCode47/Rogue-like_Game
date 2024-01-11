@@ -27,6 +27,10 @@ namespace Rogue_like_Game.Entities
                 }
             }
 
+            if(available_directions_to_move.Count == 0)
+            {
+                return;
+            }
             var final_direction = available_directions_to_move[random.Next(available_directions_to_move.Count)];
 
             maze.Map[X, Y] = ' ';
@@ -67,12 +71,13 @@ namespace Rogue_like_Game.Entities
                     deltaY = direction;
                 }
             }
-            else 
+
+            if (Y == player.Y)
             {
                 int direction = Math.Sign(player.X - X);
                 for (int i = X + direction; i != player.X; i += direction)
                 {
-                    if (maze.Map[Y, i] != ' ')
+                    if (maze.Map[i, Y] != ' ')
                     {
                         isVisible = false;
                         break;
