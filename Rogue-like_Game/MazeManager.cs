@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MazeRogueLike
+namespace Rogue_like_Game
 {
     internal static class MazeManager
     {

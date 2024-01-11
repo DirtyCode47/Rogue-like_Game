@@ -1,12 +1,11 @@
-﻿using MazeRogueLike.Entities;
-using Rogue_like_Game.Entities;
+﻿using Rogue_like_Game.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MazeRogueLike
+namespace Rogue_like_Game
 {
     internal class Game
     {
@@ -17,7 +16,7 @@ namespace MazeRogueLike
 
         public Game()
         {
-            maze = new Maze(23, 23);
+            maze = new Maze(13, 13);
             player = new Player(1,1,'P');
             zombie = new Zombie(1, maze.Width - 2,'Z');
             archer = new Archer(maze.Height - 2, maze.Width - 2, 'A');

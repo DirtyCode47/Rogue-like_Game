@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MazeRogueLike
+namespace Rogue_like_Game
 {
     internal class Maze
     {
@@ -17,7 +17,7 @@ namespace MazeRogueLike
             _height = height;
         }
         public char[,] Map;
-        public int Width { get; set; } = 23;
-        public int Height { get; set; } = 23;
+        public int Width { get => _width; set => _width = value; }
+        public int Height { get => _height; set => _height = value; }
     }
 }

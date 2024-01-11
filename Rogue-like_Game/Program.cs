@@ -1,4 +1,4 @@
-﻿namespace MazeRogueLike
+﻿namespace Rogue_like_Game
 {
     internal class Program
     {

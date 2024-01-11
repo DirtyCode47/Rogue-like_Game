@@ -1,19 +1,20 @@
-﻿using System;
+﻿using Rogue_like_Game.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MazeRogueLike.Entities
+namespace Rogue_like_Game.Entities
 {
     internal class Player:Entity
     {
         private bool is_alive;
         private bool is_escaped;
 
-        public delegate void BeingAttackedHandler();
-        public event BeingAttackedHandler BeingAttacked;
+        //public delegate void BeingAttackedHandler();
+        //public event BeingAttackedHandler BeingAttacked;
         public Player(int x,int y,char symbol):base(x,y,symbol)
         {
             is_alive = true;
@@ -39,8 +40,11 @@ namespace MazeRogueLike.Entities
             IsEscaped = false;
         }
 
-        public override void Act(Maze maze)
+        public override void Act(Maze maze, Dictionary<string, Entity> acting_entities)
         {
+            var zombie = acting_entities["Zombie"];
+            var archer = acting_entities["Archer"];
+
             var key = Console.ReadKey(true);
 
             switch (key.Key)
@@ -62,6 +66,14 @@ namespace MazeRogueLike.Entities
             {
                 IsEscaped = true;
             }
+
+            if (IsNearbyOtherEntity(zombie) || IsNearbyOtherEntity(archer))
+            {
+                Renderer.PrintMaze(maze);
+                IsAlive = false; //Игрок умирает, если в упоре как мечник, так и лучник, у которого на всякий случай есть нож в кармане
+            }
+
+
 
             bool TryMove(Maze maze, int deltaX, int deltaY)
             {

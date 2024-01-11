@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MazeRogueLike.Entities
+namespace Rogue_like_Game.Entities
 {
     internal abstract class Entity
     {
@@ -36,6 +37,10 @@ namespace MazeRogueLike.Entities
             set => symbol = value;
         }
 
+        protected bool IsNearbyOtherEntity(Entity entity)
+        {
+            return (X - entity.X == 0 && Math.Abs(Y - entity.Y) == 1) || (Y - entity.Y == 0 && Math.Abs(X - entity.X) == 1);
+        }
 
         protected bool IsInBounds(Maze maze,int x,int y)
         {
@@ -48,7 +53,7 @@ namespace MazeRogueLike.Entities
         //}
 
         public abstract void ResetFields(Maze maze);  //Сбросить все поля игровой сущности в состояние начала игры
-        public abstract void Act(Maze maze);  //Действие за один ход
+        public abstract void Act(Maze maze,Dictionary<string,Entity> entities);  //Действие за один ход
         //public abstract bool TryMove(Maze maze, int deltaX, int deltaY);
         //public abstract bool IsInBounds(Maze maze, int x, int y);
 

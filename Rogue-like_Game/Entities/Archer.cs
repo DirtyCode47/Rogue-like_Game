@@ -1,4 +1,4 @@
-﻿using MazeRogueLike;
+﻿using Rogue_like_Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +15,9 @@ namespace Rogue_like_Game.Entities
             X = maze.Height - 2;
             Y = maze.Width - 2;
         }
-        public override void Act(Maze maze)
+        public override void Act(Maze maze,Dictionary<string, Entity> acting_entities)
         {
+            if()
             MoveRandom(maze);
         }
     }
