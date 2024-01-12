@@ -38,12 +38,12 @@ namespace Rogue_like_Game.Entities
             set => symbol = value;
         }
 
-        protected bool IsNearbyOtherEntity(Entity entity)
+        protected bool IsNearbyOtherEntity(Entity entity) //Находится ли рядом с сущностью другая сущность
         {
             return (X - entity.X == 0 && Math.Abs(Y - entity.Y) == 1) || (Y - entity.Y == 0 && Math.Abs(X - entity.X) == 1);
         }
 
         public abstract void ResetFields(Maze maze);  //Сбросить все поля игровой сущности в состояние начала игры
-        public abstract void Act(Maze maze,Dictionary<string,Entity> entities);  //Действие за один ход
+        public abstract void Act(Maze maze,Dictionary<string,Entity> entities);  //Действие сущности за один ход
     }
 }

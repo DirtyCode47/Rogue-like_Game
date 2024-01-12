@@ -8,16 +8,16 @@ namespace Rogue_like_Game.MazeLogic
 {
     internal class Maze
     {
-        private int _width;
-        private int _height;
+        private int width;
+        private int height;
 
         public Maze(int width, int height)
         {
-            _width = width;
-            _height = height;
+            this.width = width;
+            this.height = height;
         }
         public char[,] Map;
-        public int Width { get => _width; set => _width = value; }
-        public int Height { get => _height; set => _height = value; }
+        public int Width { get => width; set => width = value; }
+        public int Height { get => height; set => height = value; }
     }
 }

@@ -11,8 +11,8 @@ namespace Rogue_like_Game.Entities.Players
 {
     internal class Player : Entity
     {
-        private bool is_alive;
-        private bool is_escaped;
+        private bool is_alive; //Жив ли игрок
+        private bool is_escaped; //Нашел ли игрок выход на потенциально следующий уровень
 
         public Player(int x, int y, char symbol) : base(x, y, symbol)
         {
@@ -74,7 +74,7 @@ namespace Rogue_like_Game.Entities.Players
 
 
 
-            bool TryMove(Maze maze, int deltaX, int deltaY)
+            bool TryMove(Maze maze, int deltaX, int deltaY) //Может ли игрок пройти в том направлении, куда нажал клавишу
             {
                 bool is_moved = false;
                 int newX = X + deltaX;

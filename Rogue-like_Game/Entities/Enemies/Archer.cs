@@ -26,7 +26,7 @@ namespace Rogue_like_Game.Entities.Enemies
         {
             Player player = (Player)acting_entities["Player"];
 
-            if (IsNearbyOtherEntity(player))
+            if (IsNearbyOtherEntity(player)) //Если рядом со стрелой игрок, то он умирает
             {
                 Renderer.PrintMaze(maze);
                 player.IsAlive = false;
@@ -34,15 +34,15 @@ namespace Rogue_like_Game.Entities.Enemies
 
             (int delta_x, int delta_y, bool is_visible) = IsPlayerVisibleOnSameAxis(maze, player);
 
-            if (!arrow.IsInAir)
+            if (!arrow.IsInAir)  //Если стела не летит в настоящее время
             {
                 if (!is_visible)
                 {
-                    MoveRandom(maze);
+                    MoveRandom(maze); //Если игрока не видно, то рандомное движение
                 }
                 else
                 {
-                    arrow.SetFieldsForFlightCondition(maze, X, delta_x, Y, delta_y);
+                    arrow.SetFieldsForFlightCondition(maze, X, delta_x, Y, delta_y); //Иначе лучник пускает стрелу, у которой устанавливаются значения полей
                 }
             }
             else

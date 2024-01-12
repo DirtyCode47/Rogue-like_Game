@@ -29,12 +29,15 @@ namespace Rogue_like_Game.GameLogic
             var acting_game_entities = new List<Entity>() { player, zombie, archer };
             do
             {
-                MazeManager.CreateMaze(maze, zombie, archer);
-                GameUpdater.UpdateLoop(maze, player, zombie, archer);
+                MazeManager.CreateMaze(maze, zombie, archer); //Создаем и инициализируем лабиринт
+                GameUpdater.UpdateLoop(maze, player, zombie, archer); //Обновляем игру, пока игрок не найдет выход или умрет
 
                 Console.WriteLine("Do you want to play again? (y/n)");
             } while (Console.ReadKey(true).Key == ConsoleKey.Y);
-            //В случае, когда уровень закончится, можно будет нажать Y для перехода на следующий уровень с новым лабиринтом
+            //В случае, когда уровень закончится (Игрок умрет или найдет выход),
+            //можно будет нажать Y для перехода на следующий уровень с новым лабиринтом,
+            //или другую клавишу, чтоб окончательно выйти из игры
+            //Выбор за игроком
         }
     }
 }

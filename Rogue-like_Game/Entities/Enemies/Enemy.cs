@@ -13,9 +13,9 @@ namespace Rogue_like_Game.Entities.Enemies
     {
         public Enemy(int x, int y, char symbol) : base(x, y, symbol) { }
 
-        public void MoveRandom(Maze maze)
+        public void MoveRandom(Maze maze) //Рандомное движение врагов
         {
-            var random = new Random(Guid.NewGuid().GetHashCode()); //Вроде как лучше чем просто new Random()
+            var random = new Random(Guid.NewGuid().GetHashCode()); //Лучше чем new Random()
 
             var all_directions = new List<(int, int)>() { (-1, 0), (1, 0), (0, -1), (0, 1) };
             var available_directions_to_move = new List<(int, int)>();
@@ -42,7 +42,7 @@ namespace Rogue_like_Game.Entities.Enemies
             maze.Map[X, Y] = Symbol;
         }
 
-        public void MoveToPlayer(Maze maze, int delta_x, int delta_y)
+        public void MoveToPlayer(Maze maze, int delta_x, int delta_y) //Движение в сторону игрока
         {
             maze.Map[X, Y] = ' ';
 
@@ -53,9 +53,9 @@ namespace Rogue_like_Game.Entities.Enemies
         }
 
 
-        public (int, int, bool) IsPlayerVisibleOnSameAxis(Maze maze, Player player)
-        {
-            int deltaX = 0, deltaY = 0;
+        public (int, int, bool) IsPlayerVisibleOnSameAxis(Maze maze, Player player) //Возвращает кортеж 
+        {                                              //Со значениями Delta_x и Delta_y для дальнейшего движения в эту сторону
+            int deltaX = 0, deltaY = 0;                //и с флагом, который указывает на то, виден ли игрок
             bool isVisible = false;
 
             if (X == player.X)

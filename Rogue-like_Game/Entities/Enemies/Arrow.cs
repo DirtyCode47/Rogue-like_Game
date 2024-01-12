@@ -21,9 +21,6 @@ namespace Rogue_like_Game.Entities.Enemies
         }
         public bool IsInAir { get; set; }
         public (int, int) DirectionToMove { get; set; }
-        public int X { get; set; }
-        public int Y { get; set; }
-        public char Symbol { get; set; }
 
         public void SetFieldsForFlightCondition(Maze maze, int x, int delta_x, int y, int delta_y)
         {
@@ -57,10 +54,10 @@ namespace Rogue_like_Game.Entities.Enemies
                 return;
             }
 
-            player.IsAlive = false;
+            player.IsAlive = false;  //Если стрела встретилась с игроком
             Renderer.PrintMaze(maze);
         }
-        public override void ResetFields(Maze maze)
+        public override void ResetFields(Maze maze) 
         {
             IsInAir = false;
             DirectionToMove = (0, 0);

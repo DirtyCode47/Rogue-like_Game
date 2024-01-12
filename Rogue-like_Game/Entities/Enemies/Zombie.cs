@@ -21,7 +21,7 @@ namespace Rogue_like_Game.Entities.Enemies
         {
             Player player = (Player)acting_entities["Player"];
 
-            if (IsNearbyOtherEntity(player))
+            if (IsNearbyOtherEntity(player))  //Если игрок сам подошел к зомби в упор, то зомби его убивает 
             {
                 Renderer.PrintMaze(maze);
                 player.IsAlive = false;
@@ -29,7 +29,7 @@ namespace Rogue_like_Game.Entities.Enemies
 
             (int delta_x, int delta_y, bool is_visible) = IsPlayerVisibleOnSameAxis(maze, player);
 
-            if (!is_visible)
+            if (!is_visible) //Если зомюи не видит игрока, то зомби двигается рандомно, иначе - прямиком к игроку
             {
                 MoveRandom(maze);
             }
@@ -38,7 +38,7 @@ namespace Rogue_like_Game.Entities.Enemies
                 MoveToPlayer(maze, delta_x, delta_y);
             }
 
-            if (IsNearbyOtherEntity(player))
+            if (IsNearbyOtherEntity(player))  //Если зомби приблизился к игроку в упор, то зомби убивает игрока
             {
                 Renderer.PrintMaze(maze);
                 player.IsAlive = false;
